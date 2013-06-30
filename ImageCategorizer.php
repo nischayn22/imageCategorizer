@@ -16,12 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
- * @author Nischay Nahata for Aruba as consultant for WikiWorks
+ * @author Nischay Nahata for Aruba Networks as consultant for WikiWorks.com
  */
 	$settings = array( 'wiki' => 'http://localhost/core' );
 	$settings['user'] = "Nischayn22";
 	$settings['pass'] = "password";
 	$settings['imagesDirectory'] = "images";
+	# Settings for Basic HTTP Auth
+	$settings['serverAuth'] = true;
+	$settings['AuthUsername'] = 'nischay';
+	$settings['AuthPassword'] = 'password';
+
 	// Leave this alone
 	$settings['cookiefile'] = "cookies.tmp";
 
@@ -79,6 +84,9 @@
 		global $settings;
 
 		$ch = curl_init();
+		if( $settings['serverAuth'] ) {
+			curl_setopt($ch, CURLOPT_USERPWD, $settings['AuthUsername'] . ":" . $settings['AuthPassword']);
+		}
 		//Change the user agent below suitably
 		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.9) Gecko/20071025 Firefox/2.0.0.9');
 		curl_setopt($ch, CURLOPT_URL, ($url));
